@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BattleShooting</string>
+    <string name="quickmatch">クイックマッチ</string>
+    <string name="app_id">1059310773983</string>
 </resources>

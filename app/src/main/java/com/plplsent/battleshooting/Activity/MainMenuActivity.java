@@ -20,7 +20,7 @@ import com.plplsent.battleshooting.Game.MyGameAPI;
 import com.plplsent.battleshooting.Network.MyNetwork;
 import com.plplsent.battleshooting.R;
 
-public class MainMenuActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks ,GoogleApiClient.OnConnectionFailedListener, RoomUpdateListener, RealTimeMessageReceivedListener {
+public class MainMenuActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks ,GoogleApiClient.OnConnectionFailedListener, RoomUpdateListener {
     private GoogleApiClient client;
     private final int WAITINGROOM_REQUESTCODE = 0;
     private GameView gameView;
