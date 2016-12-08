@@ -60,6 +60,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     private void exitGame(){
         setContentView(R.layout.main_menu);
+        network=null;
         gameView=null;
     }
     @Override
@@ -109,6 +110,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onRoomConnected(int i, Room room) {
+        network = new MyNetwork(room);
         gameView = new GameView(this,new MyGameAPI(network));
     }
 
