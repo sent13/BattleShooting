@@ -5,11 +5,9 @@ import com.google.android.gms.games.Games;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessageReceivedListener;
-import com.plplsent.battleshooting.Game.Ballet;
-import com.plplsent.battleshooting.Game.BalletInfo;
 import com.plplsent.battleshooting.Game.DPoint;
-import com.plplsent.battleshooting.Game.PlayerInfo;
-import com.plplsent.battleshooting.Game.UpdateInfo;
+import com.plplsent.battleshooting.Game.Event.Event;
+import com.plplsent.battleshooting.Game.GameAPI;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,16 +24,17 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
     private final GoogleApiClient client;
     private final String roomID;
     private final Participant participant;
-    private List<UpdateInfo> info;
-
-    public MyNetwork(GoogleApiClient client, String roomID, Participant p) {
+    private List<Event> info;
+    private GameAPI gameAPI;
+    public MyNetwork(GameAPI gameAPI,GoogleApiClient client, String roomID, Participant p) {
         this.client = client;
         this.roomID = roomID;
         participant = p;
+        this.gameAPI = gameAPI;
     }
 
     public void send(DPoint playerPos, List<Ballet> ballets) {
-        List<UpdateInfo> info = new ArrayList<>();
+        List<Event> info = new ArrayList<>();
         info.add(new PlayerInfo(playerPos));
         for (Ballet ballet : ballets) {
             info.add(new BalletInfo(ballet.getID(), ballet.getPosition()));
@@ -64,12 +63,11 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
     public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
         ByteArrayInputStream bis = new ByteArrayInputStream(realTimeMessage.getMessageData());
         ObjectInput in = null;
-        DataT
         try {
             in = new ObjectInputStream(bis);
             Object o = in.readObject();
             if (o instanceof List) {
-                List<UpdateInfo> updatedInfo = (List<UpdateInfo>) o;
+                List<Event> updatedInfo = (List<Event>) o;
                 info = Collections.synchronizedList(updatedInfo);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -83,9 +81,8 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
                 // ignore close exception
             }
         }
+        gameAPI.addEvent();
+
     }
 
-    List<UpdateInfo> getEvents() {
-        return info;
-    }
 }

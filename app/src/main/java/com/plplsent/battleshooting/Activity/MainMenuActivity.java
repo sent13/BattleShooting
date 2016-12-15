@@ -17,6 +17,7 @@ import com.google.android.gms.games.multiplayer.realtime.RealTimeMessageReceived
 import com.google.android.gms.games.multiplayer.realtime.Room;
 import com.google.android.gms.games.multiplayer.realtime.RoomConfig;
 import com.google.android.gms.games.multiplayer.realtime.RoomUpdateListener;
+import com.plplsent.battleshooting.Game.GameAPI;
 import com.plplsent.battleshooting.Game.MyGameAPI;
 import com.plplsent.battleshooting.Network.MyNetwork;
 import com.plplsent.battleshooting.R;
@@ -123,8 +124,9 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
         if(flag){
             throw new IllegalStateException("the other player has not benn found");
         }
-        network = new MyNetwork(client,room.getRoomId(),p);
-        gameView = new GameView(this,new MyGameAPI(network));
+        GameAPI api = new MyGameAPI();
+        network = new MyNetwork(api,client,room.getRoomId(),p);
+        gameView = new GameView(this,api);
     }
 
 }

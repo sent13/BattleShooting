@@ -2,7 +2,7 @@ package com.plplsent.battleshooting.Game;
 
 
 public class Field {
-    Ballet getBallet(int id);
+    private Field() {
+    }
 
-    Player getEnemy() ;
 }
