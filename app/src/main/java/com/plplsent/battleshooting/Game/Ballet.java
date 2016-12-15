@@ -1,4 +1,4 @@
-package com.plplsent.battleshooting.Game.Ballet;
+package com.plplsent.battleshooting.Game;
 
 import com.plplsent.battleshooting.Game.DPoint;
 
@@ -6,18 +6,22 @@ import com.plplsent.battleshooting.Game.DPoint;
  * Created by plpl on 2016/12/08.
  */
 
-class Ballet {
+public class Ballet {
     private DPoint position;
-
-    public Ballet(double x,double y) {
+    private int ID;
+    public Ballet(int ID,double x,double y) {
+        this.ID = ID;
         this.position = new DPoint(x,y);
     }
 
     void setPosition(DPoint p){
         position = p;
     }
-    DPoint getPosition(){
+    public DPoint getPosition(){
         return position;
     }
 
+    public int getID() {
+        return ID;
+    }
 }

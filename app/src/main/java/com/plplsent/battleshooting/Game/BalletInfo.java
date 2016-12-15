@@ -1,4 +1,4 @@
-package com.plplsent.battleshooting.Game.Ballet;
+package com.plplsent.battleshooting.Game;
 
 import android.view.SurfaceView;
 

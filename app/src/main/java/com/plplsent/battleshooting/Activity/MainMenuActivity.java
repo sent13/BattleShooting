@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
+import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessageReceivedListener;
 import com.google.android.gms.games.multiplayer.realtime.Room;
@@ -110,7 +111,19 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onRoomConnected(int i, Room room) {
-        network = new MyNetwork(room);
+        Participant p=null;
+        boolean flag = false;
+        String myID = room.getParticipantId(Games.Players.getCurrentPlayerId(client));
+        for (Participant participant : room.getParticipants()) {
+            if(!participant.getParticipantId().equals(myID)){
+                flag= true;
+                p=participant;
+            }
+        }
+        if(flag){
+            throw new IllegalStateException("the other player has not benn found");
+        }
+        network = new MyNetwork(client,room.getRoomId(),p);
         gameView = new GameView(this,new MyGameAPI(network));
     }
 

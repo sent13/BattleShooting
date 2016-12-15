@@ -1,8 +1,8 @@
-package com.plplsent.battleshooting.Game.Aircraft;
+package com.plplsent.battleshooting.Game;
 
 import com.plplsent.battleshooting.Game.DPoint;
 
-class Player {
+public class Player {
     private DPoint position;
     public Player(double x,double y) {
         position = new DPoint(x,y);

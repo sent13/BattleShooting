@@ -1,4 +1,4 @@
-package com.plplsent.battleshooting.Game.Aircraft;
+package com.plplsent.battleshooting.Game;
 
 import com.plplsent.battleshooting.Game.DPoint;
 import com.plplsent.battleshooting.Game.Field;
