@@ -122,7 +122,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
             }
         }
         if(flag){
-            throw new IllegalStateException("the other player has not benn found");
+            throw new IllegalStateException("the other Player has not benn found");
         }
         GameAPI api = new MyGameAPI();
         network = new MyNetwork(api,client,room.getRoomId(),p);

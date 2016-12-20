@@ -3,15 +3,21 @@ package com.plplsent.battleshooting.Game;
 
 import java.io.Serializable;
 
-/**
- * Created by plpl on 2016/12/08.
- */
 
 public class DPoint implements Serializable{
-    public double x;
-    public double y;
+    private double x;
+    private double y;
 
     public DPoint(double x, double y) {
         this.x = x;
+    }
+    public double getX(){
+        return x;
+    }
+    public double getY(){
+        return y;
+    }
+    public DPoint add(DPoint dPoint){
+        return new DPoint(getX()+dPoint.getX(),getY()+dPoint.getY());
     }
 }

@@ -1,4 +1,4 @@
-package com.plplsent.battleshooting;
+package com.plplsent.battleshooting.Utils;
 
 import java.io.EOFException;
 import java.io.File;
