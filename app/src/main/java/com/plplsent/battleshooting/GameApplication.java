@@ -1,10 +1,11 @@
-package com.plplsent.battleshooting.Activity;
+package com.plplsent.battleshooting;
 
 import android.app.Application;
 
 import com.plplsent.battleshooting.Game.Result;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class GameApplication extends Application{
     }
 
     public List<Result> getResultList() {
-        return resultList;
+        return Collections.unmodifiableList(resultList);
     }
 
 }
