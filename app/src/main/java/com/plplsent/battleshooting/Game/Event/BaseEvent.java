@@ -1,15 +1,15 @@
 package com.plplsent.battleshooting.Game.Event;
 
-import com.plplsent.battleshooting.Game.Field;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup;
 
 
 abstract class BaseEvent implements Event {
-    protected final Field.Team TEAM;
+    protected final TeamGroup.Team TEAM;
 
-    BaseEvent(Field.Team team) {
+    BaseEvent(TeamGroup.Team team) {
         TEAM = team;
     }
-    Field.Team getTeam(){
+    TeamGroup.Team getTeam(){
 	return TEAM;
     }
 

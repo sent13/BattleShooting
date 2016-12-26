@@ -4,25 +4,23 @@ package com.plplsent.battleshooting.Game;
 import com.plplsent.battleshooting.Game.Entity.Bullets.Bullets;
 import com.plplsent.battleshooting.Game.Entity.Entity;
 import com.plplsent.battleshooting.Game.Entity.Players.Players;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup;
 
 public class Field {
     private final Players players;
     private final Bullets bullets;
 
-    public enum Team {
-        ME,ENEMY
-    }
     private Field() {
         players = new Players();
         bullets = new Bullets();
     }
 
-    public Entity getPlayer(Team team) {
+    public Entity getPlayer(TeamGroup.Team team) {
         return players.getPlayer(team);
     }
 
 
-    public void createBullet(Team team,DPoint startPos){
+    public void createBullet(TeamGroup.Team team, DPoint startPos){
         bullets.create(team,startPos);
     }
 }

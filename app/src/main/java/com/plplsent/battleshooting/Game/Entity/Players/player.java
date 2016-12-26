@@ -3,18 +3,17 @@ package com.plplsent.battleshooting.Game.Entity.Players;
 
 import com.plplsent.battleshooting.Game.DPoint;
 import com.plplsent.battleshooting.Game.Entity.Entity;
-import com.plplsent.battleshooting.Game.Event.Event;
-import com.plplsent.battleshooting.Game.Field;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup;
 
 class Player extends Entity {
 
-    private final Field.Team TEAM;
+    private final TeamGroup.Team TEAM;
 
-    Player(DPoint position, Field.Team team) {
+    Player(DPoint position, TeamGroup.Team team) {
         super(position,new DPoint(5,5));
         TEAM = team;
     }
-    public Field.Team getTeam(){
+    public TeamGroup.Team getTeam(){
         return TEAM;
     }
 

@@ -2,7 +2,7 @@ package com.plplsent.battleshooting.Game.Entity.Bullets;
 
 import com.plplsent.battleshooting.BuildConfig;
 import com.plplsent.battleshooting.Game.DPoint;
-import com.plplsent.battleshooting.Game.Field;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,12 +27,12 @@ public class BulletsTest {
 
         @Test
         public void getBulletsTEAMMEで要素がゼロが得られる() throws Exception {
-            assertThat(bullets.getBullets(Field.Team.ME).size(), is(0));
+            assertThat(bullets.getBullets(TeamGroup.Team.ME).size(), is(0));
         }
 
         @Test
         public void getBulletsTEAMENEMYで要素がゼロが得られる() throws Exception {
-            assertThat(bullets.getBullets(Field.Team.ENEMY).size(), is(0));
+            assertThat(bullets.getBullets(TeamGroup.Team.ENEMY).size(), is(0));
         }
 
 
@@ -46,7 +46,7 @@ public class BulletsTest {
         @Config(constants = BuildConfig.class, sdk = 21)
         public static class TEAMMEにcreateした場合 {
             Bullets bullets;
-            Field.Team TEAM = Field.Team.ME;
+            TeamGroup.Team TEAM = TeamGroup.Team.ME;
             DPoint startPos = new DPoint(5, 5);
 
             @Before
@@ -63,7 +63,7 @@ public class BulletsTest {
 
             @Test
             public void getBullets_ENEMYで要素数ゼロのリストを取得できる(){
-                assertThat(bullets.getBullets(Field.Team.ENEMY).size(),is(0));
+                assertThat(bullets.getBullets(TeamGroup.Team.ENEMY).size(),is(0));
             }
         }
 
@@ -71,7 +71,7 @@ public class BulletsTest {
         @Config(constants = BuildConfig.class, sdk = 21)
         public static class TEAMENEMYにcreateした場合 {
             Bullets bullets;
-            Field.Team TEAM = Field.Team.ENEMY;
+            TeamGroup.Team TEAM = TeamGroup.Team.ENEMY;
             DPoint startPos = new DPoint(5, 5);
 
             @Before
@@ -88,7 +88,7 @@ public class BulletsTest {
 
             @Test
             public void getBullets_MEで要素数ゼロのリストを取得できる(){
-                assertThat(bullets.getBullets(Field.Team.ME).size(),is(0));
+                assertThat(bullets.getBullets(TeamGroup.Team.ME).size(),is(0));
             }
         }
 
@@ -103,7 +103,7 @@ public class BulletsTest {
         @Config(constants = BuildConfig.class, sdk = 21)
         public static class TEAMMEにcreateした場合 {
             Bullets bullets;
-            Field.Team TEAM = Field.Team.ME;
+            TeamGroup.Team TEAM = TeamGroup.Team.ME;
             DPoint startPos1 = new DPoint(5, 5);
             DPoint startPos2 = new DPoint(10, 10);
 
@@ -122,7 +122,7 @@ public class BulletsTest {
 
             @Test
             public void getBullets_ENEMYで要素数ゼロのリストを取得できる(){
-                assertThat(bullets.getBullets(Field.Team.ENEMY).size(),is(0));
+                assertThat(bullets.getBullets(TeamGroup.Team.ENEMY).size(),is(0));
             }
         }
 
@@ -130,7 +130,7 @@ public class BulletsTest {
         @Config(constants = BuildConfig.class, sdk = 21)
         public static class TEAENEMYにcreateした場合 {
             Bullets bullets;
-            Field.Team TEAM = Field.Team.ENEMY;
+            TeamGroup.Team TEAM = TeamGroup.Team.ENEMY;
             DPoint startPos1 = new DPoint(5, 5);
             DPoint startPos2 = new DPoint(10, 10);
 
@@ -149,7 +149,7 @@ public class BulletsTest {
 
             @Test
             public void getBullets_ENEMYで要素数ゼロのリストを取得できる(){
-                assertThat(bullets.getBullets(Field.Team.ME).size(),is(0));
+                assertThat(bullets.getBullets(TeamGroup.Team.ME).size(),is(0));
             }
         }
 
@@ -157,8 +157,8 @@ public class BulletsTest {
         @Config(constants = BuildConfig.class, sdk = 21)
         public static class 両方にCreateした場合 {
             Bullets bullets;
-            Field.Team TEAM1 = Field.Team.ENEMY;
-            Field.Team TEAM2 = Field.Team.ME;
+            TeamGroup.Team TEAM1 = TeamGroup.Team.ENEMY;
+            TeamGroup.Team TEAM2 = TeamGroup.Team.ME;
 
             DPoint startPos1 = new DPoint(5, 5);
             DPoint startPos2= new DPoint(5, 5);
