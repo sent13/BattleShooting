@@ -4,14 +4,12 @@ import com.plplsent.battleshooting.Game.DPoint;
 import com.plplsent.battleshooting.Game.Entity.Entity;
 
 
-final class Bullet extends Entity implements Comparable<Bullet>{
+final class Bullet extends Entity{
     private final DPoint SPEED_VECTOR;
-    private final int ID;
 
-    Bullet(DPoint position, DPoint speedVector,int id) {
-        super(position);
+    Bullet(DPoint position, DPoint speedVector) {
+        super(position,new DPoint(5,5));
         SPEED_VECTOR = speedVector;
-        ID = id;
     }
 
     @Override
@@ -19,12 +17,4 @@ final class Bullet extends Entity implements Comparable<Bullet>{
         move(SPEED_VECTOR);
     }
 
-    @Override
-    public int compareTo(Bullet o) {
-        return getID()-o.getID();
-    }
-
-    public int getID() {
-        return ID;
-    }
 }

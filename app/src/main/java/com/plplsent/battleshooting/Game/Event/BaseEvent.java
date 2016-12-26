@@ -10,7 +10,7 @@ abstract class BaseEvent implements Event {
         TEAM = team;
     }
     Field.Team getTeam(){
-	return team;
+	return TEAM;
     }
 
 }

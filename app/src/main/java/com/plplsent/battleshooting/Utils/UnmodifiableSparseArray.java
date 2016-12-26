@@ -31,7 +31,7 @@ public class UnmodifiableSparseArray<E> {
     public String toString() {
         return mArray.toString();
     }
-    public boolean remove(int index){
-        return mArray.remove(index);
+    public void remove(int index){
+         mArray.remove(index);
     }
 }

@@ -32,8 +32,8 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
         participant = p;
         this.gameAPI = gameAPI;
     }
-
-    public void send(DPoint playerPos, List<Ballet> ballets) {
+/*
+    public void send(DPoint playerPos, List<> ballets) {
         List<Event> info = new ArrayList<>();
         info.add(new PlayerInfo(playerPos));
         for (Ballet ballet : ballets) {
@@ -58,7 +58,7 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
             }
         }
     }
-
+*/
     @Override
     public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
         ByteArrayInputStream bis = new ByteArrayInputStream(realTimeMessage.getMessageData());
@@ -81,7 +81,6 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
                 // ignore close exception
             }
         }
-        gameAPI.addEvent();
 
     }
 

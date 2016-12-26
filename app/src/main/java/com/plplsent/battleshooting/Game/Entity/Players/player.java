@@ -11,7 +11,7 @@ class Player extends Entity {
     private final Field.Team TEAM;
 
     Player(DPoint position, Field.Team team) {
-        super(position);
+        super(position,new DPoint(5,5));
         TEAM = team;
     }
     public Field.Team getTeam(){
