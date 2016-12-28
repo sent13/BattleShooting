@@ -1,24 +1,18 @@
 package com.plplsent.battleshooting.Game.Entity.Players;
 
 
-import com.plplsent.battleshooting.Game.DPoint;
+import com.plplsent.battleshooting.Utils.DPoint;
 import com.plplsent.battleshooting.Game.Entity.Entity;
-import com.plplsent.battleshooting.Game.Entity.TeamGroup;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup.GroupEntry;
 
-class Player extends Entity {
+public class Player extends Entity implements GroupEntry{
 
-    private final TeamGroup.Team TEAM;
-
-    Player(DPoint position, TeamGroup.Team team) {
+    Player(DPoint position) {
         super(position,new DPoint(5,5));
-        TEAM = team;
     }
-    public TeamGroup.Team getTeam(){
-        return TEAM;
-    }
-
     @Override
     public void update() {
 
     }
+
 }

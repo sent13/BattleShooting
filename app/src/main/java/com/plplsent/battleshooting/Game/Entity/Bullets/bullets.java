@@ -1,41 +1,58 @@
 package com.plplsent.battleshooting.Game.Entity.Bullets;
 
 
-import android.util.SparseArray;
-
-import com.plplsent.battleshooting.Game.DPoint;
+import com.plplsent.battleshooting.Utils.DPoint;
 import com.plplsent.battleshooting.Game.Entity.Entity;
-import com.plplsent.battleshooting.Game.Field;
-import com.plplsent.battleshooting.Utils.UnmodifiableSparseArray;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup.GroupEntry;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
-public class Bullets {
-    Map<Field.Team,SparseArray<Bullet>> bulletMap = new EnumMap<Field.Team,SparseArray<Bullet>>(Field.Team.class){{
-        put(Field.Team.ME,new SparseArray<Bullet>());
-        put(Field.Team.ENEMY,new SparseArray<Bullet>());
-	}};
-    Map<Field.Team,Integer> lastIndexs = new EnumMap<Field.Team,Integer>(Field.Team.class){{
-	    put(Field.Team.Me,Integer.valueOf(0));
-	    put(Field.Team.ENEMY,Integer.valueOf(0));
-	}};
-    public Bullets() {
+public final class Bullets implements GroupEntry{
 
+    private final BulletLifeManager LIFE_MANAGER;
+    private Set<Bullet> bulletSet;
+
+    Bullets(BulletLifeManager manager) {
+        bulletSet =  new HashSet<>();
+        LIFE_MANAGER = manager;
+    }
+    public Set<Bullet> getBullets(){
+        return Collections.unmodifiableSet(bulletSet);
     }
 
-    public Entity getBullet(Field.Team team, int index) {
-        return bulletMap.get(Field.Team.ME).get(index);
+    @Override
+    public void update() {
+        Iterator it = bulletSet.iterator();
+        while(it.hasNext()){
+            Bullet bullet = ((Bullet) it.next());
+            bullet.update();
+            if(LIFE_MANAGER.isDead(bullet)){
+                it.remove();
+            }
+        }
+
+    }
+    public void create(DPoint position){
+        bulletSet.add(LIFE_MANAGER.create(position));
     }
 
-    public void createNew(Field.Team team,DPoint startPos) {
-        Integer i = lastIndexs.get(team);
-	SparseArray array = bulletMap.get(team);
-	array.put(i,new Bullet(startPos,null,i++));
-	lastIndexs.put(team,i);
-    }
-    public UnmodifiableSparseArray<Bullet> getBullets(Field.Team team){
-        return new UnmodifiableSparseArray<>(bulletMap.get(team));
-    }
+    static final class Bullet extends Entity{
+        private final DPoint SPEED_VECTOR;
 
+        Bullet(DPoint position, DPoint speedVector) {
+            super(position,new DPoint(5,5));
+            SPEED_VECTOR = speedVector;
+        }
+
+        @Override
+        public void update() {
+            move(SPEED_VECTOR);
+        }
+
+
+
+    }
 }
