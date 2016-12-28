@@ -23,4 +23,3 @@ public class PlayerGroupTest {
             assertThat(group.getAll(TeamGroup.Team.ME),not(group.getAll(TeamGroup.Team.ENEMY)));
         }
     }
-}
