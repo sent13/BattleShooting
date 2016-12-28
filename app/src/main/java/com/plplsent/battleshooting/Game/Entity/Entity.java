@@ -3,7 +3,7 @@ package com.plplsent.battleshooting.Game.Entity;
 
 import android.graphics.RectF;
 
-import com.plplsent.battleshooting.Game.DPoint;
+import com.plplsent.battleshooting.Utils.DPoint;
 
 public abstract class Entity {
     private final DPoint SIZE;

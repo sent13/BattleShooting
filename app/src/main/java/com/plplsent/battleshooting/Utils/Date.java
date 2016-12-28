@@ -1,4 +1,4 @@
-package com.plplsent.battleshooting.Game;
+package com.plplsent.battleshooting.Utils;
 
 import java.io.Serializable;
 

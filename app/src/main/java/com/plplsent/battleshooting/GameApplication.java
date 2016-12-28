@@ -2,7 +2,7 @@ package com.plplsent.battleshooting;
 
 import android.app.Application;
 
-import com.plplsent.battleshooting.Game.Result;
+import com.plplsent.battleshooting.Utils.Result;
 
 import java.util.ArrayList;
 import java.util.Collections;

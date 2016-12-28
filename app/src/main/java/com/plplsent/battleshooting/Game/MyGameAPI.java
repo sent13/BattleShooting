@@ -1,6 +1,7 @@
 package com.plplsent.battleshooting.Game;
 
 import com.plplsent.battleshooting.Game.Event.Event;
+import com.plplsent.battleshooting.Game.Field.Field;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

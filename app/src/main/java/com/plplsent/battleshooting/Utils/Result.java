@@ -1,4 +1,6 @@
-package com.plplsent.battleshooting.Game;
+package com.plplsent.battleshooting.Utils;
+
+import com.plplsent.battleshooting.Utils.Date;
 
 import java.io.Serializable;
 

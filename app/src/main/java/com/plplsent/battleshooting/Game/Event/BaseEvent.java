@@ -1,6 +1,6 @@
 package com.plplsent.battleshooting.Game.Event;
 
-import com.plplsent.battleshooting.Game.Entity.TeamGroup;
+import com.plplsent.battleshooting.Game.Entity.TeamGroup.TeamGroup;
 
 
 abstract class BaseEvent implements Event {
