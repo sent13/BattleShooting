@@ -1,14 +1,19 @@
 package com.plplsent.battleshooting.Activity;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.multiplayer.Participant;
@@ -43,9 +48,18 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
                 startQuickMatch();
             }
         });
+
+        findViewById(R.id.show_result_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, ShowResultActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void startQuickMatch() {
+        Log.e("tag","onConected");
         Bundle autoMatchCriteria = RoomConfig.createAutoMatchCriteria(1,1, 0); //二人ﾌﾟﾚｲ
         RoomConfig.Builder rtmConfigBuilder = RoomConfig.builder(this);
         rtmConfigBuilder.setAutoMatchCriteria(autoMatchCriteria);
@@ -66,6 +80,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("Tag",resultCode+"");
         if(requestCode== WAITINGROOM_REQUESTCODE){
             StartGame();
         }
@@ -75,6 +90,7 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Toast.makeText(this,"GoogleAPI Connected",Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -88,7 +104,17 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        throw new IllegalStateException(connectionResult.toString());
+        if(!connectionResult.hasResolution()){
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(),this,0).show();
+            return;
+        }
+
+        try{
+            connectionResult.startResolutionForResult(this,1);
+        }catch(IntentSender.SendIntentException e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -100,7 +126,6 @@ public class MainMenuActivity extends AppCompatActivity implements GoogleApiClie
 
     @Override
     public void onJoinedRoom(int i, Room room) {
-
     }
 
     @Override

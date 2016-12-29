@@ -7,25 +7,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.plplsent.battleshooting.Activity.StartActivity">
-
-    <Button
-        android:text="@string/quickmatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/quickmatchbutton"
-        android:textSize="40sp"
-        android:theme="@style/AppTheme"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+    tools:context="com.plplsent.battleshooting.Activity.MainMenuActivity">
 
     <TextView
-        android:text="TextView"
+        android:text="BattleShooting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
         tools:text="BattleShooting"
-        android:textSize="50sp"
+        android:textSize="45sp"
         android:gravity="center"
         android:textColor="@color/colorPrimaryDark"
         android:layout_alignParentTop="true"
@@ -34,4 +24,31 @@
         android:layout_marginTop="61dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/quickmatch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/quickmatchbutton"
+        android:textSize="40sp"
+        android:theme="@style/AppTheme"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+
+    <Button
+        android:id="@+id/show_result_btn"
+        android:text="@string/show_result"
+        android:textSize="40sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:layout_below="@+id/quickmatchbutton"
+        />
+
+
 </RelativeLayout>

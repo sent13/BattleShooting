@@ -17,4 +17,9 @@ public class Date implements Serializable{
         this.hour=hour;
         this.minute=minute;
     }
+
+    @Override
+    public String toString(){
+        return month+"月"+day+"日"+hour+"時"+minute+"分";
+    }
 }
