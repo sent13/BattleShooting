@@ -1,10 +1,13 @@
 package com.plplsent.battleshooting;
 
 import android.app.Application;
+import android.widget.ArrayAdapter;
 
 import com.plplsent.battleshooting.Utils.Date;
+import com.plplsent.battleshooting.Utils.ObjectStream;
 import com.plplsent.battleshooting.Utils.Result;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,25 +18,28 @@ import java.util.List;
 
 public class GameApplication extends Application{
 
-    private List<Result> resultList;
+    static final String FILE_NAME="resultData.obj";
+    ObjectStream<Result> objectStream;
 
     @Override
     public void onCreate(){
-        resultList=new ArrayList<>();
-        addResult(new Result(100,new Date(12,29,15,43)));
-        addResult(new Result(130,new Date(12,29,15,20)));
-        addResult(new Result(110,new Date(12,29,15,50)));
+        objectStream=new ObjectStream<>(new File(getFilesDir(),FILE_NAME));
 
-        /* DataUtilからの読み込みを書く */
+
+        /* 最初の一回だけ確認のために有効にしてくれ
+        addResult(new Result(100,new Date(12,29,15,43)));
+        addResult(new Result(140,new Date(12,29,15,20)));
+        addResult(new Result(110,new Date(12,29,15,50))); */
     }
 
     public void addResult(Result result){
-        resultList.add(result);
-        Collections.sort(resultList);
+        objectStream.save(result);
     }
 
     public List<Result> getResultList() {
-        return Collections.unmodifiableList(resultList);
+        List<Result> results=objectStream.read();
+        Collections.sort(results);
+        return Collections.unmodifiableList(results);
     }
 
 }

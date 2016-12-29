@@ -1,5 +1,7 @@
 package com.plplsent.battleshooting.Utils;
 
+import android.util.Log;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ObjectStream<T extends Serializable> {
@@ -40,6 +43,7 @@ public class ObjectStream<T extends Serializable> {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
             oos.writeObject(dataList);
+            oos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,7 +59,9 @@ public class ObjectStream<T extends Serializable> {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
 
-            return (List<T>) ois.readObject();
+            List<T> list= (List<T>) ois.readObject();
+            ois.close();
+            return list;
         }catch (EOFException e){
             return new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
