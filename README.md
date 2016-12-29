@@ -1,6 +1,12 @@
 # BattleShootig
 Google play surviceを利用したマルチプレイシューティングゲーム
 
+Could not find class 'com.google.firebase.FirebaseOptions', referenced from method com.google.firebase.FirebaseApp.<init>
+12-29 14:15:24.210 7338-7338/com.plplsent.battleshooting E/dalvikvm: Could not find class 'com.google.firebase.FirebaseApp$zzb', referenced from method com.google.firebase.FirebaseApp.zzaR
+12-29 14:15:24.225 7338-7338/com.plplsent.battleshooting E/dalvikvm: Could not find class 'com.google.firebase.FirebaseApiNotAvailableException', referenced from method com.google.firebase.FirebaseApp.getToken
+12-29 14:15:24.235 7338-7338/com.plplsent.battleshooting E/dalvikvm: Could not find class 'com.google.firebase.FirebaseApp$zza', referenced from method com.google.firebase.FirebaseApp.zza
+12-29 14:15:24.245 7338-7338/com.plplsent.battleshooting E/AndroidRuntime: FATAL EXCEPTION: main
+
 java.lang.NoClassDefFoundError: com.google.firebase.FirebaseOptions
                                                                                at com.google.firebase.FirebaseApp.initializeApp(Unknown Source)
                                                                                at com.google.firebase.provider.FirebaseInitProvider.onCreate(Unknown Source)
