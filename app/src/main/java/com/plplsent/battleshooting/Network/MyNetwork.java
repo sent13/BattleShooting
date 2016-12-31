@@ -1,5 +1,7 @@
 package com.plplsent.battleshooting.Network;
 
+import android.util.Log;
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
@@ -14,19 +16,17 @@ import java.io.ObjectInputStream;
 import java.util.Collections;
 import java.util.List;
 
-public class MyNetwork implements RealTimeMessageReceivedListener {
+public class MyNetwork{
     private final GoogleApiClient client;
-    private final String roomID;
-    private final Participant participant;
     private List<Event> info;
     private GameAPI gameAPI;
-    public MyNetwork(GameAPI gameAPI,GoogleApiClient client, String roomID, Participant p) {
+    Participant otherPlayer;
+    public MyNetwork(GameAPI gameAPI,GoogleApiClient client,Participant p1) {
         this.client = client;
-        this.roomID = roomID;
-        participant = p;
         this.gameAPI = gameAPI;
+        otherPlayer = p1;
     }
-/*
+/**
     public void send(DPoint playerPos, List<> ballets) {
         List<Event> info = new ArrayList<>();
         info.add(new PlayerInfo(playerPos));
@@ -53,8 +53,8 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
         }
     }
 */
-    @Override
-    public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
+
+    void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
         ByteArrayInputStream bis = new ByteArrayInputStream(realTimeMessage.getMessageData());
         ObjectInput in = null;
         try {
@@ -64,6 +64,7 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
                 List<Event> updatedInfo = (List<Event>) o;
                 info = Collections.synchronizedList(updatedInfo);
             }
+            Log.e("tag","不正なデータです");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -76,6 +77,10 @@ public class MyNetwork implements RealTimeMessageReceivedListener {
             }
         }
 
+    }
+
+    public List<Event> getEvent(){
+        return info;
     }
 
 }

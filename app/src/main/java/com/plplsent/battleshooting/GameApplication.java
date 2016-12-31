@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by sent13 on 2016/12/14.
- */
-
 public class GameApplication extends Application{
 
     static final String FILE_NAME="resultData.obj";
@@ -25,11 +21,10 @@ public class GameApplication extends Application{
     public void onCreate(){
         objectStream=new ObjectStream<>(new File(getFilesDir(),FILE_NAME));
 
-
-        /* 最初の一回だけ確認のために有効にしてくれ
+        /**
         addResult(new Result(100,new Date(12,29,15,43)));
         addResult(new Result(140,new Date(12,29,15,20)));
-        addResult(new Result(110,new Date(12,29,15,50))); */
+        addResult(new Result(110,new Date(12,29,15,50)));**/
     }
 
     public void addResult(Result result){

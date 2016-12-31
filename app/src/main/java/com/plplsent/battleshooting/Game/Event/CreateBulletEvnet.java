@@ -11,7 +11,6 @@ public class CreateBulletEvnet extends BaseEvent{
     public CreateBulletEvnet(TeamGroup.Team team, DPoint startPos) {
         super(team);
         START_POSITION = startPos;
-
     }
 
     @Override

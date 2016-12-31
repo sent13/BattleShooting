@@ -2,9 +2,8 @@ package com.plplsent.battleshooting.Utils;
 
 import java.io.Serializable;
 
-/**
- * Created by sent13 on 16/12/13.
- */
+
+
 public class Date implements Serializable{
     final private int month;
     final private int day;

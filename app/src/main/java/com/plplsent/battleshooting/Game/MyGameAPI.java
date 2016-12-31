@@ -4,6 +4,7 @@ import com.plplsent.battleshooting.Game.Event.Event;
 import com.plplsent.battleshooting.Game.Field.Field;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
 
 public class MyGameAPI implements GameAPI{
@@ -30,4 +31,7 @@ public class MyGameAPI implements GameAPI{
             e.apply(field);
         }
     }
+
+
+
 }
