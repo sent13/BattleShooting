@@ -11,7 +11,7 @@ public class MessageListener implements RealTimeMessageReceivedListener{
     public MessageListener() {
     }
     public void setNetWork(MyNetwork netWork){
-        this.network = netWork;
+    this.network = netWork;
     }
 
     public void removeNetWork(){
@@ -23,5 +23,9 @@ public class MessageListener implements RealTimeMessageReceivedListener{
     @Override
     public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
         network.onRealTimeMessageReceived(realTimeMessage);
+    }
+
+    public MyNetwork getNetWork() {
+        return network;
     }
 }

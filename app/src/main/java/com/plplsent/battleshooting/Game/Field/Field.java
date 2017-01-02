@@ -10,10 +10,10 @@ import com.plplsent.battleshooting.Game.Entity.TeamGroup.TeamGroup;
 public class Field {
     private final PlayerGroup players;
     private final BulletGroup bulletGroup;
-
+    private final DPoint FIELD_SIZE = new DPoint(16*100,9*100);
     private Field() {
         players = new PlayerGroup();
-        bulletGroup = new BulletGroup(500,500);
+        bulletGroup = new BulletGroup(FIELD_SIZE);
     }
 
     public Entity getPlayer(TeamGroup.Team team) {

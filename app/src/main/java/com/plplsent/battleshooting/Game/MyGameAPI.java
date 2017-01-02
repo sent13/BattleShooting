@@ -2,15 +2,20 @@ package com.plplsent.battleshooting.Game;
 
 import com.plplsent.battleshooting.Game.Event.Event;
 import com.plplsent.battleshooting.Game.Field.Field;
+import com.plplsent.battleshooting.Network.MyNetwork;
 
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.Deque;
 
 public class MyGameAPI implements GameAPI{
+    private final MyNetwork NETWORK;
     Deque<Event> eventDeque = new ArrayDeque<>();
     Field field;
-    public MyGameAPI() {
+
+
+    public MyGameAPI(MyNetwork network) {
+        NETWORK = network;
     }
 
     /**
@@ -22,6 +27,11 @@ public class MyGameAPI implements GameAPI{
         eventDeque.offerLast(event);
     }
 
+    @Override
+    public void update() {
+        NETWORK.sendMessage("OMG");
+        doingEvent();
+    }
     /**
      * たまっているイベントを処理します。
      */

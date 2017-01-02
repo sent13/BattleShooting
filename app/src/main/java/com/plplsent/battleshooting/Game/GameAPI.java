@@ -7,4 +7,5 @@ public interface GameAPI {
     void addEvent(Event event);
 
 
+    void update();
 }

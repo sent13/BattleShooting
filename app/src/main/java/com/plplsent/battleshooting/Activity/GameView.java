@@ -59,7 +59,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback , Ru
             e.printStackTrace();
                 }
             Log.i("tag","run");
-
+            gameAPI.update();
             mainMenuActivity.canPlay();
                 //drawing
         }

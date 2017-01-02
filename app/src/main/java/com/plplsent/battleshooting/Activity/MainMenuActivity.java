@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -36,6 +36,8 @@ public class MainMenuActivity extends AppCompatActivity  {
     private RoomUpdateListener roomUpdateListener;
     private boolean isPlaying = false;
     private GameView gameView;
+    private Long WAITING_TIME_LIMIT = 5000L;
+    private Long waitingStartTime = 0L;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,20 +51,7 @@ public class MainMenuActivity extends AppCompatActivity  {
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
 
-        findViewById(R.id.quickmatchbutton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startQuickMatch();
-            }
-        });
-
-        findViewById(R.id.show_result_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainMenuActivity.this, ShowResultActivity.class);
-                startActivity(intent);
-            }
-        });
+        componentInit();
         messageListener = new MessageListener();
     }
 
@@ -88,10 +77,11 @@ public class MainMenuActivity extends AppCompatActivity  {
         }
     }
 
-    private void prepareGame(Participant otherPlayer){
-        GameAPI api = new MyGameAPI();
+    private void prepareGame(Participant otherPlayer,String RoomID){
+        MyNetwork network = new MyNetwork(client,otherPlayer,RoomID);
+        GameAPI api = new MyGameAPI(network);
         gameView = new GameView(MainMenuActivity.this,api);
-        messageListener.setNetWork(new MyNetwork(api,client,otherPlayer));
+        messageListener.setNetWork(network);
     }
     private void exitGame(){
         Log.i("tag","exitGame");
@@ -103,9 +93,28 @@ public class MainMenuActivity extends AppCompatActivity  {
             isPlaying = false;
             room = null;
             gameView = null;
+            componentInit();
         }else{
             Log.i("tag","プレイ中でない状態でexitGameが呼ばれています");
         }
+    }
+
+    private void componentInit() {
+
+        findViewById(R.id.quickmatchbutton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startQuickMatch();
+            }
+        });
+
+        findViewById(R.id.show_result_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainMenuActivity.this, ShowResultActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -156,11 +165,14 @@ public class MainMenuActivity extends AppCompatActivity  {
     }
 
     public void canPlay() {
-        Log.i("tag","canPlay " + (isPlaying && room != null && room.getParticipants().size() != 2) +" cc "+room.getParticipants().size());
-        if(isPlaying && room != null && room.getParticipants().size() != 2){
-            Log.i("tag","canPlay true");
-            exitGame();
-
+        if(messageListener.getNetWork().isExistNewData()){
+            waitingStartTime = System.currentTimeMillis();
+        }else{
+            Toast.makeText(this,"接続が切れています,,,,,",Toast.LENGTH_SHORT).show();
+            if((System.currentTimeMillis()-waitingStartTime) >WAITING_TIME_LIMIT){
+                Toast.makeText(this,"切断されました",Toast.LENGTH_LONG).show();
+                exitGame();
+            }
         }
     }
 
@@ -246,8 +258,110 @@ public class MainMenuActivity extends AppCompatActivity  {
             if (!flag) {
                 throw new IllegalStateException("the other Player has not benn found");
             }
-            prepareGame(p);
+            prepareGame(p,room.getRoomId());
         }
     }
+/**
+    public class MyRoomStatusUpdateListener implements RoomStatusUpdateListener {
+        boolean mPlaying = false;
 
+        // at least 2 players required for our game
+        final static int MIN_PLAYERS = 2;
+
+        // returns whether there are enough players to start the game
+        boolean shouldStartGame(Room room) {
+            int connectedPlayers = 0;
+            for (Participant p : room.getParticipants()) {
+                if (p.isConnectedToRoom()) ++connectedPlayers;
+            }
+            return connectedPlayers >= MIN_PLAYERS;
+        }
+
+        // Returns whether the room is in a state where the game should be canceled.
+        boolean shouldCancelGame(Room room) {
+            // TODO: Your game-specific cancellation logic here. For example, you might decide to
+            // cancel the game if enough people have declined the invitation or left the room.
+            // You can check a participant's status with Participant.getStatus().
+            // (Also, your UI should have a Cancel button that cancels the game too)
+        }
+
+        @Override
+        public void onPeersConnected(Room room, List<String> peers) {
+            if (mPlaying) {
+                // add new player to an ongoing game
+            } else if (shouldStartGame(room)) {
+                // start game!
+            }
+        }
+
+        @Override
+        public void onPeersDisconnected(Room room, List<String> peers) {
+            if (mPlaying) {
+                // do game-specific handling of this -- remove player's avatar
+                // from the screen, etc. If not enough players are left for
+                // the game to go on, end the game and leave the room.
+            } else if (shouldCancelGame(room)) {
+                // cancel the game
+                Games.RealTimeMultiplayer.leave(client, roomUpdateListener, mRoomId);
+            }
+        }
+
+        @Override
+        public void onPeerDeclined(Room room, List<String> peers) {
+            // peer declined invitation -- see if game should be canceled
+            if (!mPlaying && shouldCancelGame(room)) {
+                Games.RealTimeMultiplayer.leave(client, roomUpdateListener, mRoomId);
+            }
+        }
+
+        @Override
+        public void onPeerLeft(Room room, List<String> peers) {
+            // peer left -- see if game should be canceled
+            if (!mPlaying && shouldCancelGame(room)) {
+                Games.RealTimeMultiplayer.leave(client, roomUpdateListener, mRoomId);
+            }
+        }
+
+        @Override
+        public void onP2PConnected(String s) {
+
+        }
+
+        @Override
+        public void onP2PDisconnected(String s) {
+
+        }
+
+        @Override
+        public void onConnectedToRoom(Room room) {
+
+        }
+
+        @Override
+        public void onDisconnectedFromRoom(Room room) {
+
+        }
+
+        @Override
+        public void onRoomConnecting(Room room) {
+
+        }
+
+        @Override
+        public void onRoomAutoMatching(Room room) {
+
+        }
+
+        @Override
+        public void onPeerInvitedToRoom(Room room, List<String> list) {
+
+        }
+
+
+        @Override
+        public void onPeerJoined(Room room, List<String> list) {
+
+        }
+    }
+**/
 }
