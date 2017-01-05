@@ -16,10 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.ShowResultActivity"/>
+        <activity android:name=".Activity.ShowResultActivity" />
+
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
+
+        <activity android:name=".Activity.GameActivity"></activity>
     </application>
 
 </manifest>

@@ -22,7 +22,7 @@ import java.util.List;
  * Created by sent13 on 2016/12/29.
  */
 
-public class ShowResultActivity extends AppCompatActivity{
+public class ShowResultActivity extends MyBaseActivity{
     GameApplication application;
 
     @Override

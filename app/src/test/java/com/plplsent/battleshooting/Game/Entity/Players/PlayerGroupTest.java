@@ -20,6 +20,6 @@ public class PlayerGroupTest {
 
         @Test
         public void getAll＿MEとgetAll＿ENEMYでそれぞれ違うオブジェクトを取得できる() throws Exception {
-            assertThat(group.getAll(TeamGroup.Team.ME),not(group.getAll(TeamGroup.Team.ENEMY)));
+            assertThat(group.get(TeamGroup.Team.ME),not(group.get(TeamGroup.Team.ENEMY)));
         }
     }

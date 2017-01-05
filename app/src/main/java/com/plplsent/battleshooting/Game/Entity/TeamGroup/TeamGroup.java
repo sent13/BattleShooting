@@ -21,7 +21,7 @@ public abstract class TeamGroup<E extends GroupEntry> {
         }};
     }
 
-    public E getAll(Team team){
+    public E get(Team team){
         return groups.get(team);
     }
 

@@ -5,17 +5,22 @@ import com.plplsent.battleshooting.Utils.DPoint;
 import com.plplsent.battleshooting.Game.Entity.TeamGroup.TeamGroup;
 import com.plplsent.battleshooting.Game.Field.Field;
 
-public class PlayerEvent implements Event{
-    private final TeamGroup.Team TEAM;
-    private final DPoint DELTA_MOVE;
+import java.io.Serializable;
 
-    public PlayerEvent(TeamGroup.Team team, DPoint delatMove) {
+public abstract class PlayerEvent implements Event,Serializable {
+    protected final TeamGroup.Team TEAM;
+    protected final DPoint POSITION;
+
+    public PlayerEvent(TeamGroup.Team team, DPoint pos) {
         TEAM = team;
-        DELTA_MOVE = delatMove;
+        POSITION = pos;
     }
+
+
 
     @Override
-    public void apply(Field field) {
-        field.getPlayer(TEAM).move(DELTA_MOVE);
+    public TeamGroup.Team getTeam() {
+        return TEAM;
     }
+
 }

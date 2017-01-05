@@ -44,7 +44,7 @@ public class BulletsTest {
         @Before
         public void setUp() throws Exception {
             bullets = new Bullets(new BulletLifeManager(500, 500));
-            bullets.create(startPos);
+            bullets.create(startPos, team);
         }
 
 

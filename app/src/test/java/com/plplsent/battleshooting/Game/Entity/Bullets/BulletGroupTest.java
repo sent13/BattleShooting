@@ -18,16 +18,16 @@ public class BulletGroupTest {
 
     @Test
     public void getAll＿ENEMYで要素数ゼロのbulletsを取得できる() throws Exception {
-        assertTrue(group.getAll(TeamGroup.Team.ENEMY).getBullets().isEmpty());
+        assertTrue(group.get(TeamGroup.Team.ENEMY).getBullets().isEmpty());
     }
     @Test
     public void getAll＿MEで要素数ゼロのbulletsを取得できる() throws Exception {
-        assertTrue(group.getAll(TeamGroup.Team.ME).getBullets().isEmpty());
+        assertTrue(group.get(TeamGroup.Team.ME).getBullets().isEmpty());
     }
 
 
     @Test
     public void getAll＿MEとgetAll＿ENEMYでそれぞれ違うオブジェクトを取得できる() throws Exception {
-        assertThat(group.getAll(TeamGroup.Team.ME),not(group.getAll(TeamGroup.Team.ENEMY)));
+        assertThat(group.get(TeamGroup.Team.ME),not(group.get(TeamGroup.Team.ENEMY)));
     }
 }

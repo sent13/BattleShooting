@@ -1,6 +1,7 @@
 package com.plplsent.battleshooting.Game.Entity.Bullets;
 
 
+import com.plplsent.battleshooting.Game.Entity.TeamGroup.TeamGroup;
 import com.plplsent.battleshooting.Utils.DPoint;
 import com.plplsent.battleshooting.Game.Entity.Entity;
 import com.plplsent.battleshooting.Game.Entity.TeamGroup.GroupEntry;
@@ -35,8 +36,17 @@ public final class Bullets implements GroupEntry{
         }
 
     }
-    public void create(DPoint position){
-        bulletSet.add(LIFE_MANAGER.create(position));
+
+    public boolean isOverlap(Entity e){
+        for (Bullet bullet : bulletSet) {
+            if (bullet.getRect().intersect(e.getRect())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void create(DPoint position, TeamGroup.Team team){
+        bulletSet.add(LIFE_MANAGER.create(position,team));
     }
 
     static final class Bullet extends Entity{

@@ -1,6 +1,5 @@
 package com.plplsent.battleshooting.Network;
 
-import android.os.Debug;
 import android.util.Log;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -9,43 +8,41 @@ import com.google.android.gms.games.multiplayer.Participant;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessage;
 import com.google.android.gms.games.multiplayer.realtime.RealTimeMessageReceivedListener;
 import com.plplsent.battleshooting.Game.Event.Event;
-import com.plplsent.battleshooting.Game.GameAPI;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.nio.ByteBuffer;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.util.Collections;
 import java.util.List;
 
-public class MyNetwork{
+public class MyNetwork implements RealTimeMessageReceivedListener{
     private final GoogleApiClient client;
-    private final String ROOMID;
+    private final String ROOM_ID;
     private List<Event> info;
     Participant otherPlayer;
-    boolean isRecieve = false;
+    private boolean isReceive = false;
+    private boolean isLose = false;
+
     public MyNetwork(GoogleApiClient client,Participant p1,String RoomID) {
         this.client = client;
         otherPlayer = p1;
-        ROOMID = RoomID;
+        ROOM_ID = RoomID;
     }
-/**
-    public void send(DPoint playerPos, List<> ballets) {
-        List<Event> info = new ArrayList<>();
-        info.add(new PlayerInfo(playerPos));
-        for (Ballet ballet : ballets) {
-            info.add(new BalletInfo(ballet.getID(), ballet.getPosition()));
-        }
+
+    public void send(List<Event> event) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutput out = null;
+        ObjectOutput out;
         try {
             out = new ObjectOutputStream(bos);
-            out.writeObject(info);
+            out.writeObject(event);
             out.flush();
             byte[] bytes = bos.toByteArray();
-
-            Games.RealTimeMultiplayer.sendReliableMessage(client, null, bytes, roomID, participant.getParticipantId());
+            Games.RealTimeMultiplayer.sendUnreliableMessage(client, bytes, ROOM_ID, otherPlayer.getParticipantId());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -56,43 +53,55 @@ public class MyNetwork{
             }
         }
     }
-*/
 
-    void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
-        isRecieve =  true;
+
+    public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
+        isReceive =  true;
         byte[] msg  = realTimeMessage.getMessageData();
+        ObjectInputStream in = null;
         try {
-            ByteArrayInputStream bis = new ByteArrayInputStream(msg);
-            ObjectInput in = new ObjectInputStream(bis);
+
+            in = new ObjectInputStream(new ByteArrayInputStream(msg));
+
             try{
                 Object o = in.readObject();
                 if (o instanceof List) {
                     List<Event> updatedInfo = (List<Event>) o;
                     info = Collections.synchronizedList(updatedInfo);
+                }else{
+                    Log.e("tag","データがリストじゃない");
                 }
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
-                Log.e("tag","不正なデータです ");
-            } finally {
-                try {
-                    if (in != null) {
-                        in.close();
-                    }
-                } catch (IOException ex) {
-                    // ignore close exception
-                }
+                Log.e("tag", "不正なデータです ");
             }
-        }catch (IOException e) {
+        }catch (StreamCorruptedException e) {
             //Data was not Objects
             Log.i("tag","getMessage : "+new String(msg));
+            if(new String(msg).equals("WIN")){
+                isLose = true;
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                // ignore close exception
+            }
         }
 
 
     }
 
-    public boolean isExistNewData(){
-        boolean result = isRecieve;
-        isRecieve = false;
+    public boolean isLose(){
+        return isLose;
+    }
+    public boolean isReceiveNewData(){
+        boolean result = isReceive;
+        isReceive = false;
         return result;
     }
     public List<Event> getEvent(){
@@ -101,7 +110,7 @@ public class MyNetwork{
 
     public void sendMessage(String msg) {
         Log.i("tag","send message : "+ msg);
-        Games.RealTimeMultiplayer.sendReliableMessage(client, null, msg.getBytes(),
-                ROOMID, otherPlayer.getParticipantId());
+        Games.RealTimeMultiplayer.sendReliableMessage(client,null, msg.getBytes(),
+                ROOM_ID, otherPlayer.getParticipantId());
     }
 }
