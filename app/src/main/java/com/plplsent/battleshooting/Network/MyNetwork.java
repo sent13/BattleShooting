@@ -17,13 +17,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class MyNetwork implements RealTimeMessageReceivedListener{
     private final GoogleApiClient client;
     private final String ROOM_ID;
-    private List<Event> info;
+    private final BlockingQueue<Event> info = new LinkedBlockingQueue<>();
     Participant otherPlayer;
     private boolean isReceive = false;
     private boolean isLose = false;
@@ -35,6 +43,7 @@ public class MyNetwork implements RealTimeMessageReceivedListener{
     }
 
     public void send(List<Event> event) {
+        Log.i("tag","sendMessage");
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput out;
         try {
@@ -42,7 +51,7 @@ public class MyNetwork implements RealTimeMessageReceivedListener{
             out.writeObject(event);
             out.flush();
             byte[] bytes = bos.toByteArray();
-            Games.RealTimeMultiplayer.sendUnreliableMessage(client, bytes, ROOM_ID, otherPlayer.getParticipantId());
+            Games.RealTimeMultiplayer.sendReliableMessage(client,null, bytes, ROOM_ID, otherPlayer.getParticipantId());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -54,9 +63,9 @@ public class MyNetwork implements RealTimeMessageReceivedListener{
         }
     }
 
-
     public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
         isReceive =  true;
+        Log.i("tag","received");
         byte[] msg  = realTimeMessage.getMessageData();
         ObjectInputStream in = null;
         try {
@@ -66,8 +75,9 @@ public class MyNetwork implements RealTimeMessageReceivedListener{
             try{
                 Object o = in.readObject();
                 if (o instanceof List) {
+                    Log.i("tag","adding Network Event");
                     List<Event> updatedInfo = (List<Event>) o;
-                    info = Collections.synchronizedList(updatedInfo);
+                    info.addAll(updatedInfo);
                 }else{
                     Log.e("tag","データがリストじゃない");
                 }
@@ -104,7 +114,7 @@ public class MyNetwork implements RealTimeMessageReceivedListener{
         isReceive = false;
         return result;
     }
-    public List<Event> getEvent(){
+    public BlockingQueue<Event> getEvent(){
         return info;
     }
 

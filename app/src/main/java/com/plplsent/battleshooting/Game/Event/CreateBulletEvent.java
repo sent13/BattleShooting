@@ -28,6 +28,6 @@ public final class CreateBulletEvent implements Event,Serializable {
     public Event changeTEAM() {
         TeamGroup.Team team = this.TEAM== TeamGroup.Team.ENEMY? TeamGroup.Team.ME: TeamGroup.Team.ENEMY;
         DPoint pos = new DPoint(Field.FIELD_SIZE.getX()-START_POSITION.getX(),Field.FIELD_SIZE.getY()-START_POSITION.getY());
-        return new CreateBulletEvent(team,START_POSITION);
+        return new CreateBulletEvent(team,pos);
     }
 }

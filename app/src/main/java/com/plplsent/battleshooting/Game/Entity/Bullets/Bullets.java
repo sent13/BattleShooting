@@ -39,7 +39,7 @@ public final class Bullets implements GroupEntry{
 
     public boolean isOverlap(Entity e){
         for (Bullet bullet : bulletSet) {
-            if (bullet.getRect().intersect(e.getRect())) {
+            if (bullet.getRectF().intersect(e.getRectF())) {
                 return true;
             }
         }
@@ -53,7 +53,7 @@ public final class Bullets implements GroupEntry{
         private final DPoint SPEED_VECTOR;
 
         Bullet(DPoint position, DPoint speedVector) {
-            super(position,new DPoint(5,5));
+            super(position,new DPoint(128,115));
             SPEED_VECTOR = speedVector;
         }
 

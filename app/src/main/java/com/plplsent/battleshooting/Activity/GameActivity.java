@@ -10,11 +10,12 @@ import com.plplsent.battleshooting.GameApplication;
 import com.plplsent.battleshooting.Network.MessageListener;
 import com.plplsent.battleshooting.Network.MyNetwork;
 
-public class GameActivity extends MyBaseActivity {
+public class GameActivity extends MyBase2Activity {
 
     public static final String ROOM_KEY = "room";
     public Room room;
     MyNetwork network;
+    GameView gameView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,8 @@ public class GameActivity extends MyBaseActivity {
         network = new MyNetwork(((GameApplication) getApplication()).getGoogleApiClient(),
                 otherPlayer,room.getRoomId());
         MessageListener.getInstance().setNetWork(network);
-        setContentView(new GameView(this,new MyGameAPI(network)));
+        gameView =new GameView(this,new MyGameAPI(network));
+        setContentView(gameView);
     }
 
 
@@ -50,12 +52,13 @@ public class GameActivity extends MyBaseActivity {
     }
 
     private void exit(){
+        gameView.end();
         MessageListener.getInstance().removeNetWork();
     }
 
     @Override
     public void onBackPressed() {
         exit();
-        super.onBackPressed();
+        finish();
     }
 }

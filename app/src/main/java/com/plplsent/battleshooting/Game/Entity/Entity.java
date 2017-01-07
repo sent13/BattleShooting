@@ -23,7 +23,7 @@ public abstract class Entity {
         return this.SIZE;
     }
 
-    public RectF getRect(){
+    public RectF getRectF(){
         return rectF;
     }
     public void move(DPoint deltaPosition){
@@ -44,6 +44,6 @@ public abstract class Entity {
     }
 
     public boolean intersects(Entity e){
-        return this.rectF.intersect(e.getRect());
+        return this.rectF.intersect(e.getRectF());
     }
 }

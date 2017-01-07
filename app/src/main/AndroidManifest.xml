@@ -22,7 +22,11 @@
             android:name="com.google.android.gms.games.APP_ID"
             android:value="@string/app_id" />
 
-        <activity android:name=".Activity.GameActivity"></activity>
+        <activity
+            android:name=".Activity.GameActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            >
+        </activity>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ public class BulletLifeManager {
     }
 
     boolean isDead(Bullets.Bullet bullet){
-        return !SCREEN.contains(bullet.getRect());
+        return !SCREEN.contains(bullet.getRectF());
     }
 
     Bullets.Bullet create(DPoint pos, TeamGroup.Team team){
@@ -23,7 +23,7 @@ public class BulletLifeManager {
         if(team == TeamGroup.Team.ENEMY){
             bulletSpeed = new DPoint(bulletSpeed.getX(),-bulletSpeed.getY());
         }
-        return new Bullets.Bullet(pos,BULLET_SPEED);
+        return new Bullets.Bullet(pos,bulletSpeed);
     }
 
 }

@@ -8,10 +8,12 @@ import com.plplsent.battleshooting.Game.Entity.Players.PlayerGroup;
 import com.plplsent.battleshooting.Game.Entity.TeamGroup.TeamGroup;
 import com.plplsent.battleshooting.Utils.DPoint;
 
+import java.util.Set;
+
 public class Field {
     private final PlayerGroup players;
     private final BulletGroup bulletGroup;
-    public static final DPoint FIELD_SIZE = new DPoint(16 * 100, 9 * 100);
+    public static final DPoint FIELD_SIZE = new DPoint( 9 * 100,16 * 100);
     private boolean isEnd = false;
     private TeamGroup.Team winTeam;
 
@@ -58,5 +60,9 @@ public class Field {
             throw new IllegalStateException("まだ勝敗が決まっていません");
         }
         return winTeam;
+    }
+
+    public Bullets getBullet(TeamGroup.Team team) {
+        return bulletGroup.get(team);
     }
 }

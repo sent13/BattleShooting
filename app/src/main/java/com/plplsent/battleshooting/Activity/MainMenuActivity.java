@@ -20,8 +20,8 @@ import com.plplsent.battleshooting.Network.MessageListener;
 import com.plplsent.battleshooting.R;
 
 public class MainMenuActivity extends MyBaseActivity {
-    private final int WAITINGROOM_REQUESTCODE = 0;
-    private final int GAME_START = 1;
+    private final int WAITINGROOM_REQUESTCODE = 0x111;
+    private final int GAME_START = 0x333;
     private Room room = null;
     private RoomUpdateListener roomUpdateListener;
 
@@ -78,7 +78,6 @@ public class MainMenuActivity extends MyBaseActivity {
     @Override
     protected void onActivityResult(int request, int response, Intent intent) {
         super.onActivityResult(request, response, intent);
-
         if (request == WAITINGROOM_REQUESTCODE) {
             if (response == Activity.RESULT_OK) {
                 // (start game)
@@ -98,14 +97,15 @@ public class MainMenuActivity extends MyBaseActivity {
                 Games.RealTimeMultiplayer.leave(((GameApplication) getApplication()).getGoogleApiClient(), roomUpdateListener, room.getRoomId());
             }
 
+        }else if(request == GAME_START){
+            Log.i("tag","Game has finished");
+            Games.RealTimeMultiplayer.leave(((GameApplication) getApplication()).getGoogleApiClient(), roomUpdateListener, room.getRoomId());
         } else if (request == GameApplication.GOOGLEAPI_CONNECTCODE ) {
             if (response == RESULT_OK) {
                 ((GameApplication) getApplication()).getGoogleApiClient().connect();
             } else {
                 throw new RuntimeException("Google APIに接続できませんでした。");
             }
-        }else if(request == GAME_START){
-            Games.RealTimeMultiplayer.leave(((GameApplication) getApplication()).getGoogleApiClient(), roomUpdateListener, room.getRoomId());
         }
     }
 

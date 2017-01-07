@@ -1,13 +1,17 @@
 package com.plplsent.battleshooting.Game;
 
+import android.graphics.RectF;
 import android.util.Log;
 
+import com.plplsent.battleshooting.Game.Entity.Bullets.Bullets;
 import com.plplsent.battleshooting.Game.Entity.TeamGroup.TeamGroup;
 import com.plplsent.battleshooting.Game.Event.CreateBulletEvent;
 import com.plplsent.battleshooting.Game.Event.Event;
+import com.plplsent.battleshooting.Game.Event.PlayerMoveEvent;
 import com.plplsent.battleshooting.Game.Event.PlayerPositionEvent;
 import com.plplsent.battleshooting.Game.Field.Field;
 import com.plplsent.battleshooting.Network.MyNetwork;
+import com.plplsent.battleshooting.Utils.DPoint;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -49,18 +53,54 @@ public class MyGameAPI implements GameAPI {
 
     @Override
     public void update() {
-        if (isGameEnd()) {
-            field.update();
+        if (!isGameEnd()) {
             doingEvent();
+            field.update();
             networkUpdate();
+
         } else {
             if (field.getWinTeam() == TeamGroup.Team.ME)
                 NETWORK.sendMessage("win");
         }
     }
 
+    @Override
+    public boolean isTouchingPlayer(float touchedX, float touchedY) {
+        return field.getPlayer(TeamGroup.Team.ME).getRectF().contains(touchedX, touchedY);
+    }
+
+    @Override
+    public void fireBallet() {
+        this.addEvent(new CreateBulletEvent(TeamGroup.Team.ME, field.getPlayer(TeamGroup.Team.ME).getPosition()));
+    }
+
+    @Override
+    public void movePlayer(float touchedX, float touchedY) {
+        Log.i("tag", "move x :" + touchedX + " y :" + touchedY);
+        this.addEvent(new PlayerMoveEvent(TeamGroup.Team.ME, new DPoint(touchedX, touchedY)));
+    }
+
+    @Override
+    public RectF getPlayerRectF() {
+        return field.getPlayer(TeamGroup.Team.ME).getRectF();
+    }
+
+    @Override
+    public Bullets getBullets(TeamGroup.Team team) {
+        return field.getBullet(team);
+    }
+
+    @Override
+    public RectF getEnemyRectF() {
+        return field.getPlayer(TeamGroup.Team.ENEMY).getRectF();
+    }
+
 
     private void networkUpdate() {
+        if (lastReceive == null) {
+            lastReceive = System.currentTimeMillis();
+            return;
+        }
         if (NETWORK.isLose()) {
             field.lose();
         }
@@ -79,8 +119,10 @@ public class MyGameAPI implements GameAPI {
 
     private void sendUpdateInfo() {
         List<Event> sendMessage = new ArrayList<>();
-        sendMessage.add(new PlayerPositionEvent(TeamGroup.Team.ENEMY, field.getPlayer(TeamGroup.Team.ME).getPosition()));
+        PlayerPositionEvent event = new PlayerPositionEvent(TeamGroup.Team.ME, field.getPlayer(TeamGroup.Team.ME).getPosition());
+        sendMessage.add(event.changeTEAM());
         sendMessage.addAll(NotSendData);
+        NotSendData.clear();
         NETWORK.send(sendMessage);
     }
 
@@ -89,10 +131,17 @@ public class MyGameAPI implements GameAPI {
      */
     private void doingEvent() {
         Event e;
+        while (null != (e = NETWORK.getEvent().poll())) {
+
+            Log.i("tag", e.getClass().toString() + " class Event Network");
+            e.apply(field);
+        }
+
         while (null != (e = eventDeque.poll())) {
             if (e instanceof CreateBulletEvent && e.getTeam() == TeamGroup.Team.ME) {
                 NotSendData.add(e.changeTEAM());
             }
+            Log.i("tag", e.getClass().toString() + " class Event");
             e.apply(field);
         }
     }
