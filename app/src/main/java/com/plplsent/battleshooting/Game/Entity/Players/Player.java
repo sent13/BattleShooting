@@ -12,7 +12,7 @@ public class Player extends Entity implements GroupEntry{
     }
     @Override
     public void update() {
-
+        //
     }
 
 }
