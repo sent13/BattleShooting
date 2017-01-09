@@ -11,6 +11,7 @@ import com.plplsent.battleshooting.Game.Event.PlayerMoveEvent;
 import com.plplsent.battleshooting.Game.Event.PlayerPositionEvent;
 import com.plplsent.battleshooting.Game.Field.Field;
 import com.plplsent.battleshooting.Network.MyNetwork;
+import com.plplsent.battleshooting.StopWatch;
 import com.plplsent.battleshooting.Utils.DPoint;
 
 import java.util.ArrayDeque;
@@ -54,9 +55,14 @@ public class MyGameAPI implements GameAPI {
     @Override
     public void update() {
         if (!isGameEnd()) {
+            StopWatch.start();
             doingEvent();
+            StopWatch.printMicroTime("doing Event :");
             field.update();
+            StopWatch.printMicroTime("field Update :");
             networkUpdate();
+            StopWatch.printMicroTime("Network Update :");
+
 
         } else {
             if (field.getWinTeam() == TeamGroup.Team.ME)

@@ -83,7 +83,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
             canvas.drawRect(0, 0, ((float) Field.FIELD_SIZE.getX()), ((float) Field.FIELD_SIZE.getY()), back);
             canvas.drawBitmap(playerBitMap, PLAYER_BITMAP_RECT, gameAPI.getPlayerRectF(), new Paint());
             canvas.drawBitmap(EplayerBitMap, PLAYER_BITMAP_RECT, gameAPI.getEnemyRectF(), new Paint());
-
+            back.setColor(Color.RED);
+            canvas.drawRect(gameAPI.getPlayerRectF(),back);
             for (Entity e : gameAPI.getBullets(TeamGroup.Team.ME).getBullets()) {
                 canvas.drawBitmap(bulletBitmap, BULLET_BITMAP_RECT, e.getRectF(), new Paint());
             }
@@ -113,7 +114,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         PointF oldPoint=new PointF();
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            float touchedX = event.getX() / scale;
+            float touchedX = (event.getX()+space_x) / scale;
             float touchedY = event.getY() / scale;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:

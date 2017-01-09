@@ -8,7 +8,7 @@ import com.plplsent.battleshooting.Game.Entity.TeamGroup.GroupEntry;
 public class Player extends Entity implements GroupEntry{
 
     Player(DPoint position) {
-        super(position,new DPoint(255,255));
+        super(position,new DPoint(255/2,255/2));
     }
     @Override
     public void update() {
