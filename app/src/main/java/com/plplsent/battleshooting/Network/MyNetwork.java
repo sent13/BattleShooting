@@ -51,7 +51,7 @@ public class MyNetwork implements RealTimeMessageReceivedListener{
             out.writeObject(event);
             out.flush();
             byte[] bytes = bos.toByteArray();
-            Games.RealTimeMultiplayer.sendReliableMessage(client,null, bytes, ROOM_ID, otherPlayer.getParticipantId());
+            Games.RealTimeMultiplayer.sendUnreliableMessage(client, bytes, ROOM_ID, otherPlayer.getParticipantId());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

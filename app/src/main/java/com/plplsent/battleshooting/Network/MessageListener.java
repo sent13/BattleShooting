@@ -29,7 +29,7 @@ public class MessageListener implements RealTimeMessageReceivedListener  {
 
     @Override
     public void onRealTimeMessageReceived(RealTimeMessage realTimeMessage) {
-        if(network==null) throw new NullPointerException("networkがnull");
+        if(network==null) return;
         network.onRealTimeMessageReceived(realTimeMessage);
     }
 

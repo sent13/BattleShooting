@@ -26,7 +26,7 @@ public class GameApplication extends Application{
     ObjectStream<Result> objectStream;
     private GoogleApiClient mGoogleApiClient;
     private Activity currentActivity;
-    public static final int GOOGLEAPI_CONNECTCODE = 0x111;
+    public static final int GOOGLEAPI_CONNECTCODE = 4;
     @Override
     public void onCreate(){
         objectStream=new ObjectStream<>(new File(getFilesDir(),FILE_NAME));

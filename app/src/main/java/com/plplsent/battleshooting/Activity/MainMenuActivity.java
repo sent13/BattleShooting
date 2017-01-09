@@ -20,8 +20,8 @@ import com.plplsent.battleshooting.Network.MessageListener;
 import com.plplsent.battleshooting.R;
 
 public class MainMenuActivity extends MyBaseActivity {
-    private final int WAITINGROOM_REQUESTCODE = 0x111;
-    private final int GAME_START = 0x333;
+    private final int WAITINGROOM_REQUESTCODE = 1;
+    private final int GAME_START = 2;
     private Room room = null;
     private RoomUpdateListener roomUpdateListener;
 
