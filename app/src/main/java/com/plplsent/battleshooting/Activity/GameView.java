@@ -114,7 +114,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Run
         PointF oldPoint=new PointF();
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            float touchedX = (event.getX()+space_x) / scale;
+            float touchedX = (event.getX()-space_x) / scale;
             float touchedY = event.getY() / scale;
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:

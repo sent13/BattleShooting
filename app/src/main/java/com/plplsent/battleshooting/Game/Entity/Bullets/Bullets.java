@@ -53,7 +53,7 @@ public final class Bullets implements GroupEntry{
         private final DPoint SPEED_VECTOR;
 
         Bullet(DPoint position, DPoint speedVector) {
-            super(position,new DPoint(128,115));
+            super(position,new DPoint(19,107));
             SPEED_VECTOR = speedVector;
         }
 
